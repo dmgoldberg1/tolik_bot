@@ -6,8 +6,7 @@ from telegram.ext import CommandHandler, CallbackQueryHandler, ConversationHandl
 
 BOT_TOKEN = '5924509650:AAH_AEkHZKp4jl8AzvSyFxufDe5ICzj5y8Y'
 openai.api_key = "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"
-#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  1
-#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   2
+
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 reply_keyboard = [['/help', '/start']]
