@@ -5,8 +5,9 @@ from telegram.ext import Application, MessageHandler, filters
 from telegram.ext import CommandHandler, CallbackQueryHandler, ConversationHandler
 
 BOT_TOKEN = '5924509650:AAH_AEkHZKp4jl8AzvSyFxufDe5ICzj5y8Y'
-openai.api_key = "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"
-
+openai.api_key = "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"
+#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  1
+#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   2
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 reply_keyboard = [['/help', '/start']]
@@ -14,11 +15,16 @@ markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=False)
 
 
 def ask(prompt):
-    completion = openai.Completion.create(engine="text-davinci-003",
-                                          prompt=prompt,
-                                          temperature=0.5,
-                                          max_tokens=1000)
-    return completion.choices[0]['text']
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=prompt,
+        temperature=1,
+        max_tokens=1000,
+        top_p=1,
+        frequency_penalty=0.0,
+        presence_penalty=0.0,
+    )
+    return response.choices[0]['text']
 
 
 async def start_command(update, context):
@@ -34,11 +40,12 @@ async def start_command(update, context):
 async def echo(update, context):
     if update.message.text.lower().startswith('толян'):
         prompt = update.message.text[7:]
+        print(prompt)
 
-        await update.message.reply_text(ask(prompt))
+        await context.bot.send_message(update.message.chat.id, ask(prompt))
 
     if update.message.text.lower().startswith('оооо'):
-        await update.get_bot().send_video(update.message.from_user.id, open('oborona.mp4', 'rb'))
+        await update.get_bot().send_video(update.message.chat.id, open('oborona.mp4', 'rb'))
 
 
 def main():
